@@ -1,6 +1,5 @@
 #include "advstring.h"
 #include <iostream>
-#include <conio.h>
 
 int main(int argc,char** argv)
 {
@@ -37,11 +36,13 @@ asSample5.DispStringEndl();
 asSample6.DispStringEndl();
 
 asReturn = asSample1;
-sReturnStd = asSample2;
+sReturnStd = (const char*)asSample2;
 pchReturnChar = asSample3;
 nReturnInt = asSample4;
 nReturnFloat = asSample5;
 nReturnDouble = asSample6;
+
+delete[] pchReturnChar;   // please delete this pointer this will cause a memory leak.
 
 advstring asCheck1;
 advstring asCheck2;
@@ -166,8 +167,6 @@ asCheck4 = asCheck3.Right(asCheck3.GetLength());
 asCheck4 = asCheck3.Left(asCheck3.GetLength() + 1);
 asCheck4 = asCheck3.Right(asCheck3.GetLength() + 1);
 asCheck3.ReleaseBuffer();
-
-getch();
 
 return 1;
 }

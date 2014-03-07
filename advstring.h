@@ -15,6 +15,7 @@
 #include <assert.h>
 #include <memory>
 #include <stdarg.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -51,17 +52,17 @@ public:
 	/*!
 	* int type constructor
 	*/
-	advstring::advstring(int nValue);
+	advstring(int nValue);
 
 	/*!
 	* float type constructor
 	*/
-	advstring::advstring(float nValue);
+	advstring(float nValue);
 
 	/*!
 	* double type constructor
 	*/
-	advstring::advstring(double nValue);
+	advstring(double nValue);
 
 	/*!
 	* Get The class type in a std::string variable.
@@ -234,7 +235,7 @@ public:
 	/*!
 	* Converts to const char *.
 	*/
-	operator const char*();	
+	operator const char*();
 
 	/*!
 	* Converts to char*.
