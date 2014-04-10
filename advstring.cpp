@@ -3,47 +3,69 @@
 *   advstring is a string class with advance options.
 *
 */
+
 #include "advstring.h"
 
-std::string advstring::inttostring(int nValue)
+std::string advstring::IntToString(int nValue)
 {
 	std::stringstream ss;
 	ss << nValue;
 	return ss.str();
 }
-std::string advstring::floattostring(float nValue)
+std::string advstring::FloatToString(float nValue)
 {
 	std::stringstream ss;
 	ss << nValue;
 	return ss.str();
 }
 
-std::string advstring::doubletostring(double nValue)
+std::string advstring::DoubleToString(double nValue)
 {
 	std::ostringstream out;
 	out << std::fixed << nValue;
 	return out.str();
 }
-int advstring::stringtoint(std::string sValue)
+int advstring::StringToInt(std::string sValue)
 {
 	int nValue(0);
 	std::stringstream ss(sValue);
 	ss >> nValue;
 	return nValue;
 }
-float advstring::stringtofloat(std::string sValue)
+float advstring::StringToFloat(std::string sValue)
 {
 	float nValue(0.0);
 	std::stringstream ss(sValue);
 	ss >> nValue;
 	return nValue;
 }
-double advstring::stringtodouble(std::string sValue)
+double advstring::StringToDouble(std::string sValue)
 {
 	double nValue(0.0);
 	std::stringstream ss(sValue);
 	ss >> nValue;
 	return nValue;
+}
+std::string advstring::GetDateTime(std::string sFormatValue)
+{
+	std::string sRetString;
+	time_t rawtime;
+	struct tm * timeinfo;
+	int nBufferSize(80),inc(1);
+	char *pchBuffer = NULL;
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+	size_t sizRem(0);
+	do
+	{
+		if(inc != 1) delete [] pchBuffer;
+		pchBuffer = new char[nBufferSize*inc];
+		sizRem = strftime(pchBuffer,nBufferSize*inc,sFormatValue.c_str(),timeinfo);
+		inc++;
+	}while(sizRem < 1);
+	sRetString = pchBuffer;
+	delete [] pchBuffer;
+	return sRetString;
 }
 advstring::advstring()
 {
@@ -55,21 +77,21 @@ advstring::advstring(std::string sValue)
 }
 advstring::advstring(int nValue)
 {
-	this->m_sValue = inttostring(nValue);
+	this->m_sValue = IntToString(nValue);
 }
 advstring::advstring(float nValue)
 {
-	this->m_sValue = floattostring(nValue);
+	this->m_sValue = FloatToString(nValue);
 }
 advstring::advstring(double nValue)
 {
-	this->m_sValue = doubletostring(nValue);
+	this->m_sValue = DoubleToString(nValue);
 }
 advstring::advstring(const char *pcchValue)
 {
 	this->m_sValue = pcchValue;
 }
-std::string advstring::getClass()
+std::string advstring::GetClass()
 {
 	return "advstring";
 }
@@ -103,15 +125,15 @@ advstring advstring::operator + (const char *pcchValue)
 }
 advstring advstring::operator + (int nValue)
 {
-	return (advstring(this->m_sValue + inttostring(nValue)));
+	return (advstring(this->m_sValue + IntToString(nValue)));
 }
 advstring advstring::operator + (float nValue)
 {
-	return (advstring(this->m_sValue + floattostring(nValue)));
+	return (advstring(this->m_sValue + FloatToString(nValue)));
 }
 advstring advstring::operator + (double nValue)
 {
-	return (advstring(this->m_sValue + doubletostring(nValue)));
+	return (advstring(this->m_sValue + DoubleToString(nValue)));
 }
 void advstring::operator += (advstring asValue)
 {
@@ -119,15 +141,15 @@ void advstring::operator += (advstring asValue)
 }
 void advstring::operator += (int nValue)
 {
-	this->m_sValue = this->m_sValue + inttostring(nValue);
+	this->m_sValue = this->m_sValue + IntToString(nValue);
 }
 void advstring::operator += (float nValue)
 {
-	this->m_sValue = this->m_sValue + floattostring(nValue);
+	this->m_sValue = this->m_sValue + FloatToString(nValue);
 }
 void advstring::operator += (double nValue)
 {
-	this->m_sValue = this->m_sValue + doubletostring(nValue);
+	this->m_sValue = this->m_sValue + DoubleToString(nValue);
 }
 bool advstring::operator == (advstring asValue)
 {
@@ -138,21 +160,21 @@ bool advstring::operator == (advstring asValue)
 }
 bool advstring::operator == (int nValue)
 {
-	if(this->m_sValue == inttostring(nValue))
+	if(this->m_sValue == IntToString(nValue))
 		return true;
 	else
 		return false;
 }
 bool advstring::operator == (float nValue)
 {
-	if(this->m_sValue == floattostring(nValue))
+	if(this->m_sValue == FloatToString(nValue))
 		return true;
 	else
 		return false;
 }
 bool advstring::operator == (double nValue)
 {
-	if(this->m_sValue == doubletostring(nValue))
+	if(this->m_sValue == DoubleToString(nValue))
 		return true;
 	else
 		return false;
@@ -173,21 +195,21 @@ bool advstring::operator != (advstring asValue)
 }
 bool advstring::operator != (int nValue)
 {
-	if(this->m_sValue != inttostring(nValue))
+	if(this->m_sValue != IntToString(nValue))
 		return true;
 	else
 		return false;
 }
 bool advstring::operator != (float nValue)
 {
-	if(this->m_sValue != floattostring(nValue))
+	if(this->m_sValue != FloatToString(nValue))
 		return true;
 	else
 		return false;
 }
 bool advstring::operator != (double nValue)
 {
-	if(this->m_sValue != doubletostring(nValue))
+	if(this->m_sValue != DoubleToString(nValue))
 		return true;
 	else
 		return false;
@@ -201,15 +223,15 @@ bool advstring::operator != (const char* pcchValue)
 }
 advstring::operator int()	
 {
-	return stringtoint(this->m_sValue);
+	return StringToInt(this->m_sValue);
 }
 advstring::operator float()	
 {
-	return stringtofloat(this->m_sValue);
+	return StringToFloat(this->m_sValue);
 }
 advstring::operator double()	
 {
-	return stringtodouble(this->m_sValue);
+	return StringToDouble(this->m_sValue);
 }
 advstring::operator const char*()	
 {
@@ -223,18 +245,39 @@ advstring::operator char*()
 	chNewValue[this->m_sValue.size()] = '\0'; 
 	return chNewValue;
 }
-std::string advstring::toStdString()
+int advstring::ToInt()
+{
+	return StringToInt(this->m_sValue);
+}
+float advstring::ToFloat()
+{
+	return StringToFloat(this->m_sValue);
+}
+double advstring::ToDouble()
+{
+	return StringToDouble(this->m_sValue);
+}
+std::string advstring::ToStdString()
 {
 	return this->m_sValue;
-}
-void advstring::Empty()
-{
-	this->m_sValue.clear();
 }
 const char* advstring::GetBuffer()
 {
 	return this->m_sValue.c_str();
 }
+char* advstring::GetNewBuffer()
+{
+	// Please delete the chNewValue after usage. if chNewValue not deleted it may cause memory leak.
+	char * chNewValue = new char[this->m_sValue.size() + 1];
+	std::copy(this->m_sValue.begin(), this->m_sValue.end(), chNewValue);
+	chNewValue[this->m_sValue.size()] = '\0'; 
+	return chNewValue;
+}
+void advstring::Empty()
+{
+	this->m_sValue.clear();
+}
+
 int advstring::GetLength()
 {
 	return this->m_sValue.size();
@@ -391,7 +434,7 @@ advstring advstring::Mid(int nIndex, int nCount)
 	{
 		tmp = this->m_sValue.substr(nIndex, nCount);
 	}
-	
+
 	return tmp;
 }
 int advstring::Compare(advstring asCompValue)
@@ -441,4 +484,108 @@ advstring advstring::Right(int nIndex )
 	{
 		return advstring(this->m_sValue.substr(nLength-nIndex,nIndex));
 	}
+}
+
+void advstring::Append(advstring asAppString)
+{
+	this->m_sValue = this->m_sValue + asAppString.m_sValue;
+}
+void advstring::AppendChar(char chApp)
+{
+	int nLength = this->m_sValue.size();
+	this->m_sValue.insert(nLength,1,chApp);
+}
+int advstring::FileWrite(advstring asFpath)
+{
+	FILE *fKeyFile;
+	fKeyFile = fopen(asFpath.GetBuffer(), "w");
+	if(fKeyFile != NULL)
+	{
+		fprintf(fKeyFile, "%s", this->m_sValue.c_str());
+		fclose(fKeyFile);
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+}
+int advstring::FileAppend(advstring asFpath)
+{
+	FILE *fKeyFile;
+	fKeyFile = fopen(asFpath.GetBuffer(), "a");
+	if(fKeyFile != NULL)
+	{
+		fprintf(fKeyFile, "%s", this->m_sValue.c_str());
+		fclose(fKeyFile);
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+}
+int advstring::FileAppendWithDateTime(advstring asFpath)
+{
+	std::string sWriString = GetDateTime("[%Y/%m/%d %H:%M:%S] ") + this->m_sValue + "\n";
+	FILE *fKeyFile;
+	fKeyFile = fopen(asFpath.GetBuffer(), "a");
+	if(fKeyFile != NULL)
+	{
+		fprintf(fKeyFile, "%s", sWriString.c_str());
+		fclose(fKeyFile);
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+}
+int advstring::FileRead(advstring asFpath)
+{
+	FILE *OldKeyFile;
+	if((OldKeyFile = fopen(asFpath.GetBuffer(), "r")) != NULL) 
+	{ 
+		fseek(OldKeyFile, 0, SEEK_END);
+		size_t size = ftell(OldKeyFile);
+		this->m_sValue.resize(size);
+		rewind(OldKeyFile);
+		fread((char*)this->m_sValue.c_str(), sizeof(char), this->m_sValue.size(), OldKeyFile);
+		fclose(OldKeyFile);
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+}
+int advstring::SetCurDateTime()
+{
+	this->m_sValue =  GetDateTime("%Y/%m/%d %H:%M:%S");
+	return 1;
+}
+int advstring::SetCurTime()
+{
+	this->m_sValue =  GetDateTime("%H:%M:%S");
+	return 1;
+}
+int advstring::SetCurDateTimeStamp()
+{
+	this->m_sValue = GetDateTime("%Y%m%d%H%M%S");
+	return 1;
+}
+int advstring::AppCurDateTime()
+{
+	this->m_sValue +=  GetDateTime("%Y/%m/%d %H:%M:%S");
+	return 1;
+}
+int advstring::AppCurTime()
+{
+	this->m_sValue +=  GetDateTime("%H:%M:%S");
+	return 1;
+}
+int advstring::AppCurDateTimeStamp()
+{
+	this->m_sValue += GetDateTime("%Y%m%d%H%M%S");
+	return 1;
 }

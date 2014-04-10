@@ -2,6 +2,7 @@
 *   advstring
 *
 *	advstring is a string class with advance options.
+*     Version: 2.0.1
 *	
 */
 
@@ -16,6 +17,8 @@
 #include <memory>
 #include <stdarg.h>
 #include <stdio.h>
+#include <list>
+#include <time.h>
 
 using namespace std;
 
@@ -25,12 +28,13 @@ class advstring
 private:
 
 	std::string m_sValue;	// Internal value
-	std::string inttostring(int nValue);
-	std::string floattostring(float nValue);
-	std::string doubletostring(double nValue);
-	int stringtoint(std::string sValue);
-	float stringtofloat(std::string sValue);
-	double stringtodouble(std::string sValue);
+	std::string IntToString(int nValue);
+	std::string FloatToString(float nValue);
+	std::string DoubleToString(double nValue);
+	int StringToInt(std::string sValue);
+	float StringToFloat(std::string sValue);
+	double StringToDouble(std::string sValue);
+	std::string GetDateTime(std::string sFormatValue);
 
 public:
 
@@ -68,7 +72,7 @@ public:
 	* Get The class type in a std::string variable.
 	* \return "advstring"
 	*/
-	std::string getClass();
+	std::string GetClass();
 
 	/*!
 	* Display string using cout.
@@ -244,21 +248,45 @@ public:
 	operator char*();
 
 	/*!
+	* Converts to int.
+	* \return int
+	*/
+	int ToInt();
+	
+	/*!
+	* Converts to float.
+	* \return float
+	*/
+	float ToFloat();
+	
+	/*!
+	* Converts to double.
+	* \return double
+	*/
+	double ToDouble();
+
+	/*!
 	* Convert the current string to a std::string.
 	* \return A std::string.
 	*/
-	std::string toStdString();
+	std::string ToStdString();
+
+	/*!
+	* Convert advstring to a const char array (the same way as std::string.c_str()).
+	* \return A const char* version of the current advstring.
+	*/
+	const char* GetBuffer();
+
+	/*!
+	* Convert advstring to a char array.
+	* \return A char* version of the current advstring.
+	*/
+	char* GetNewBuffer();
 
 	/*!
 	* Clear the content of the current advstring (same effect as = "").
 	*/
 	void Empty();
-
-	/*!
-	* Convert advstring to a char array (the same way as std::string.c_str()).
-	* \return A const char* version of the current advstring.
-	*/
-	const char* GetBuffer();
 
 	/*!
 	* Return the number of characters in advstring.
@@ -391,6 +419,82 @@ public:
 	*  /return substring advstring value.
 	*/
 	advstring Right(int nLength);
+
+	/*!
+	* Append current advstring with another advstring .
+	* \arg asAppString The string we want to Append with.
+	*/
+	void Append(advstring asAppString);
+
+	/*!
+	* Append current advstring with char value .
+	* \arg chApp The char we want to Append with.
+	*/
+	void AppendChar(char chApp);
+
+	/*!
+	* Write current advstring value to path specified.  If a file with the same name already exists, its contents are discarded and the file is treated as a new empty file.
+	* \arg asFpath Path with file name.
+	* \return 1 - success -1 - failure
+	*/
+	int FileWrite(advstring asFpath);
+
+	/*!
+	* Write current advstring value to path specified. Open file for output at the end of a file. Output operations always write data at the end of the file, expanding it. The file is created if it does not exist.
+	* \arg asFpath Path with file name.
+	* \return 1 - success -1 - failure
+	*/
+	int FileAppend(advstring asFpath);
+
+	/*!
+	* Write current advstring value with current date and time to path specified. Open file for output at the end of a file. Output operations always write data at the end of the file, expanding it. The file is created if it does not exist.
+	* \arg asFpath Path with file name.
+	* \return 1 - success -1 - failure
+	*/
+	int FileAppendWithDateTime(advstring asFpath);
+	
+	/*!
+	* Read File from the file path specified and save the current value to current advstring value.
+	* \arg asFpath Path with file name.
+	* \return 1 - success -1 - failure
+	*/
+	int FileRead(advstring asFpath);
+
+	/*!
+	* Set current time to advstring value.
+	* \return 1 - success -1 - failure
+	*/
+	int SetCurTime();
+
+	/*!
+	* Set current date and time to advstring value.
+	* \return 1 - success -1 - failure
+	*/
+	int SetCurDateTime();
+
+	/*!
+	* Set current date and time stamp to advstring value.
+	* \return 1 - success -1 - failure
+	*/
+	int SetCurDateTimeStamp();
+
+	/*!
+	* Append current time to advstring value.
+	* \return 1 - success -1 - failure
+	*/
+	int AppCurTime();
+
+	/*!
+	* Append current date and time to advstring value.
+	* \return 1 - success -1 - failure
+	*/
+	int AppCurDateTime();
+
+	/*!
+	* Append current date and time stamp to advstring value.
+	* \return 1 - success -1 - failure
+	*/
+	int AppCurDateTimeStamp();
 
 };
 

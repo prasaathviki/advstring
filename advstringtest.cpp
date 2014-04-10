@@ -4,11 +4,11 @@
 int main(int argc,char** argv)
 {
 advstring asSampleText;
-asSampleText = "------advstring------";
+asSampleText = "------advstringtest------";
 asSampleText.DispStringEndl();
 
 std::string sSampleStd = "sSampleStd";
-char* pchSampleChar = "pchSampleChar";
+const char* pchSampleChar = "pchSampleChar";
 int nSampleInt = 1234;
 float nSampleFloat = 1234.12;
 double nSampleDouble = 12345.12345;
@@ -42,7 +42,7 @@ nReturnInt = asSample4;
 nReturnFloat = asSample5;
 nReturnDouble = asSample6;
 
-delete[] pchReturnChar;   // please delete this pointer this will cause a memory leak.
+delete[] pchReturnChar;   // please delete this pointer this may cause a memory leak.
 
 advstring asCheck1;
 advstring asCheck2;
@@ -167,6 +167,19 @@ asCheck4 = asCheck3.Right(asCheck3.GetLength());
 asCheck4 = asCheck3.Left(asCheck3.GetLength() + 1);
 asCheck4 = asCheck3.Right(asCheck3.GetLength() + 1);
 asCheck3.ReleaseBuffer();
+asCheck3.SetCurTime();
+asCheck3.DispStringEndl();
+asCheck3.SetCurDateTime();
+asCheck3.DispStringEndl();
+asCheck3.SetCurDateTimeStamp();
+asCheck3.DispStringEndl();
+asCheck3.Empty();
+asCheck3.AppCurTime();
+asCheck3.AppCurDateTime();
+asCheck3.AppCurDateTimeStamp();
+
+asSampleText = "------endtest------";
+asSampleText.DispStringEndl();
 
 return 1;
 }
