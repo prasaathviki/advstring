@@ -1,9 +1,12 @@
 /*
 *   advstring
-*
-*	advstring is a string class with advance options.
-*     Version: 2.0.1
-*	
+*   
+*   Version: 2.0.3
+*   Author: Prasaath Viki
+*   Email: prasaathviki@gmail.com
+*   Description: advstring is a string class with advance options.
+*   Date: Wednesday, April 16, 2014.
+*   Place: Chennai.
 */
 
 #ifndef __ADVSTRING_H
@@ -19,6 +22,7 @@
 #include <stdio.h>
 #include <list>
 #include <time.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -28,13 +32,13 @@ class advstring
 private:
 
 	std::string m_sValue;	// Internal value
-	std::string IntToString(int nValue);
-	std::string FloatToString(float nValue);
-	std::string DoubleToString(double nValue);
-	int StringToInt(std::string sValue);
-	float StringToFloat(std::string sValue);
-	double StringToDouble(std::string sValue);
-	std::string GetDateTime(std::string sFormatValue);
+	static std::string IntToString(int nValue);
+	static std::string FloatToString(float nValue);
+	static std::string DoubleToString(double nValue);
+	static int StringToInt(std::string sValue);
+	static float StringToFloat(std::string sValue);
+	static double StringToDouble(std::string sValue);
+	static std::string GetDateTime(std::string sFormatValue);
 
 public:
 
@@ -107,7 +111,35 @@ public:
 	* \arg value The value to concatenate
 	* \return The concatenation between current and argument value.
 	*/
-	advstring operator + (advstring asValue);
+	friend advstring operator+( advstring asValue, const advstring& asValue2);
+
+	/*!
+	* Return a advstring which is the concatenation between the current value and the value passed in argument.
+	* \arg value The value to concatenate
+	* \return The concatenation between current and argument value.
+	*/
+	friend advstring operator+( const char* pcchValue ,const advstring& asValue2);
+
+	/*!
+	* Return a advstring which is the concatenation between the current value and the value passed in argument.
+	* \arg value The value to concatenate
+	* \return The concatenation between current and argument value.
+	*/
+	friend advstring operator+( int nValue, const advstring& asValue2);
+
+	/*!
+	* Return a advstring which is the concatenation between the current value and the value passed in argument.
+	* \arg value The value to concatenate
+	* \return The concatenation between current and argument value.
+	*/
+	friend advstring operator+( float nValue ,const advstring& asValue2);
+
+	/*!
+	* Return a advstring which is the concatenation between the current value and the value passed in argument.
+	* \arg value The value to concatenate
+	* \return The concatenation between current and argument value.
+	*/
+	friend advstring operator+( double nValue ,const advstring& asValue2);
 
 	/*!
 	* Return a advstring which is the concatenation between the current value and the value passed in argument.
@@ -142,6 +174,13 @@ public:
 	* \arg to_add The string we want to concatenate with.
 	*/
 	void operator += (advstring asValue);
+	
+	/*!
+	* Return a advstring which is the concatenation between the current value and the value passed in argument.
+	* \arg value The value to concatenate
+	* \return The concatenation between current and argument value.
+	*/
+	void operator += (const char *pcchValue);
 
 	/*!
 	* Concatenate current advstring with int value.
@@ -160,6 +199,8 @@ public:
 	* \arg to_add The string we want to concatenate with.
 	*/
 	void operator += (double nValue);
+
+	//advstring operator + (advstring asValue,advstring asValue2);
 
 	/*!
 	* Comparison between two advstring.
@@ -224,7 +265,7 @@ public:
 	/*!
 	* Converts to int.
 	*/
-	operator int();
+   operator int();
 
 	/*!
 	* Converts to float.
@@ -491,11 +532,75 @@ public:
 	int AppCurDateTime();
 
 	/*!
-	* Append current date and time stamp to advstring value.
+	* Append current date and time stamp to current advstring value.
 	* \return 1 - success -1 - failure
 	*/
 	int AppCurDateTimeStamp();
 
+	/*!
+	* AppendFormat : Append the formated values to current advstring value
+	* \return (1) - success (-1) - failure
+	*/
+	void AppendFormat(const char* pcchValue, ...);
+
+	/*!
+	* Format value with va_list and update the current advstring value
+	* \arg data and va_list initialized object. 
+	*/
+	void FormatV(const char* pcchValue,va_list args);
+
+	/*!
+	* Format value with va_list and Append the current advstring value
+	* \arg data and va_list initialized object. 
+	*/
+	void AppendFormatV(const char* pcchValue,va_list args);
+
+	/*!
+	* Make current advstring values to Reverse.
+	* \return return Reversed string.
+	*/
+	advstring MakeReverse();
+
+	/*!
+	* Make current advstring values to Lower.
+	* \return return converted string.
+	*/
+	advstring MakeLower();
+
+	/*!
+	* Make current advstring values to Upper.
+	* \return return converted string.
+	*/
+	advstring MakeUpper();
+
+	/*!
+	* Make the given value and current value to Lower and compare the strings.
+	* /return 0	They compare equal
+	* /return <0	Either the value of the first character that does not match is lower in the compared string, or all compared characters match but the compared string is shorter.
+	* /return >0	Either the value of the first character that does not match is greater in the compared string, or all compared characters match but the compared string is longer.
+	*/
+	int CompareNoCase(advstring asCompValue);
+
+	/*!
+	* check current advstring values are Lower.
+	* /return 0	They compare equal
+	* /return <0	Either the value of the first character that does not match is lower in the compared string, or all compared characters match but the compared string is shorter.
+	* /return >0	Either the value of the first character that does not match is greater in the compared string, or all compared characters match but the compared string is longer.
+	*/
+	int IsLower();
+
+	/*!
+	* check current advstring values are Upper.
+	* /return 0	They compare equal
+	* /return <0	Either the value of the first character that does not match is lower in the compared string, or all compared characters match but the compared string is shorter.
+	* /return >0	Either the value of the first character that does not match is greater in the compared string, or all compared characters match but the compared string is longer.
+	*/
+	int IsUpper();
+
+	/*!
+	* Swap the given advstring value to current value and current value to swap string.
+	*/
+	void Swap(advstring &asSwap);
 };
 
 #endif

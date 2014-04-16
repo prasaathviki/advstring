@@ -1,7 +1,12 @@
 /*
-*   author : prasaathviki@gmail.com
-*   advstring is a string class with advance options.
-*
+*   advstring
+*   
+*   Version: 2.0.3
+*   Author: Prasaath Viki
+*   Email: prasaathviki@gmail.com
+*   Description: advstring is a string class with advance options.
+*   Date: Wednesday, April 16, 2014.
+*   Place: Chennai.
 */
 
 #include "advstring.h"
@@ -115,9 +120,25 @@ void advstring::operator = (const char *pcchValue)
 {
 	this->m_sValue = pcchValue;
 }
-advstring advstring::operator + (advstring asValue)
+advstring operator+( advstring asValue, const advstring& asValue2)
 {
-	return (advstring(this->m_sValue + asValue.m_sValue));
+	return advstring(asValue.m_sValue + asValue2.m_sValue);
+}
+advstring operator+( const char* pcchValue ,const advstring& asValue2)
+{
+	return advstring(pcchValue + asValue2.m_sValue);
+}
+advstring operator+( int nValue, const advstring& asValue2)
+{
+	return advstring(advstring::IntToString(nValue) + asValue2.m_sValue);
+}
+advstring operator+( float nValue ,const advstring& asValue2)
+{
+	return advstring(advstring::FloatToString(nValue) + asValue2.m_sValue);
+}
+advstring operator+( double nValue ,const advstring& asValue2)
+{
+	return advstring(advstring::DoubleToString(nValue) + asValue2.m_sValue);
 }
 advstring advstring::operator + (const char *pcchValue)
 {
@@ -134,6 +155,10 @@ advstring advstring::operator + (float nValue)
 advstring advstring::operator + (double nValue)
 {
 	return (advstring(this->m_sValue + DoubleToString(nValue)));
+}
+void advstring::operator += (const char *pcchValue)
+{
+	this->m_sValue += pcchValue;
 }
 void advstring::operator += (advstring asValue)
 {
@@ -556,6 +581,7 @@ int advstring::FileRead(advstring asFpath)
 	}
 	else
 	{
+		this->m_sValue = "";
 		return -1;
 	}
 }
@@ -588,4 +614,69 @@ int advstring::AppCurDateTimeStamp()
 {
 	this->m_sValue += GetDateTime("%Y%m%d%H%M%S");
 	return 1;
+}
+void advstring::AppendFormat(const char* pcchValue, ...)
+{
+	std::string sFormatedString;
+	va_list args;
+	va_start (args, pcchValue);
+	int size = vsnprintf(NULL, 0, pcchValue, args); 
+	sFormatedString.resize(size);
+	vsnprintf ((char*)sFormatedString.c_str(),size+1,pcchValue, args);
+	va_end (args);
+	this->m_sValue += sFormatedString;
+}
+void advstring::FormatV(const char* pcchValue,va_list args)
+{
+	int size = vsnprintf(NULL, 0, pcchValue, args); 
+	this->m_sValue.resize(size);
+	vsnprintf ((char*)this->m_sValue.c_str(),size+1,pcchValue, args);
+}
+void advstring::AppendFormatV(const char* pcchValue,va_list args)
+{
+	std::string sFormatValue;
+	int size = vsnprintf(NULL, 0, pcchValue, args); 
+	sFormatValue.resize(size);
+	vsnprintf ((char*)sFormatValue.c_str(),size+1,pcchValue, args);
+	this->m_sValue += sFormatValue;
+}
+advstring advstring::MakeReverse()
+{
+	std::reverse(this->m_sValue.begin(),this->m_sValue.end());
+	return this->m_sValue;
+}
+advstring advstring::MakeLower()
+{
+	std::transform(this->m_sValue.begin(), this->m_sValue.end(), this->m_sValue.begin(), ::tolower);
+	return this->m_sValue;
+}
+advstring advstring::MakeUpper()
+{
+	std::transform(this->m_sValue.begin(), this->m_sValue.end(), this->m_sValue.begin(), ::toupper);
+	return this->m_sValue;
+}
+int advstring::CompareNoCase(advstring asCompValue)
+{
+	std::string sCurLower = this->m_sValue;
+	std::transform(sCurLower.begin(),sCurLower.end(), sCurLower.begin(), ::tolower);
+	std::transform(asCompValue.m_sValue.begin(),asCompValue.m_sValue.end(), asCompValue.m_sValue.begin(), ::tolower);
+	return sCurLower.compare(asCompValue.m_sValue);
+}
+int advstring::IsLower()
+{
+	std::string sCurLower = this->m_sValue;
+	std::transform(sCurLower.begin(),sCurLower.end(), sCurLower.begin(), ::tolower);
+	return sCurLower.compare(this->m_sValue);
+}
+int advstring::IsUpper()
+{
+	std::string sCurLower = this->m_sValue;
+	std::transform(sCurLower.begin(),sCurLower.end(), sCurLower.begin(), ::toupper);
+	return sCurLower.compare(this->m_sValue);
+}
+void advstring::Swap(advstring &asSwap)
+{
+	advstring asTemp = asSwap;
+	asSwap.m_sValue = this->m_sValue;
+	this->m_sValue = asTemp.m_sValue;
 }
