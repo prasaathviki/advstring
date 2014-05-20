@@ -1,12 +1,12 @@
 /*
 *   advstring
 *   
-*   Version: 2.0.3
 *   Author: Prasaath Viki
 *   Email: prasaathviki@gmail.com
 *   Description: advstring is a string class with advance options.
-*   Date: Wednesday, April 16, 2014.
 *   Place: Chennai.
+*   Version: 2.0.7
+*   Date: Tuesday, May 20, 2014.
 */
 
 #include "advstring.h"
@@ -679,4 +679,151 @@ void advstring::Swap(advstring &asSwap)
 	advstring asTemp = asSwap;
 	asSwap.m_sValue = this->m_sValue;
 	this->m_sValue = asTemp.m_sValue;
+}
+
+advstring advstring::GetCurDateTime()
+{
+	return advstring(GetDateTime("%Y/%m/%d %H:%M:%S"));
+}
+advstring advstring::GetCurTime()
+{
+	return advstring(GetDateTime("%H:%M:%S"));
+}
+advstring advstring::GetCurDateTimeStamp()
+{
+	return advstring(GetDateTime("%Y%m%d%H%M%S"));
+}
+advstring advstring::GetCurDate()
+{
+	return advstring(GetDateTime("%Y/%m/%d"));
+}
+int advstring::SetCurDate()
+{
+	this->m_sValue = GetDateTime("%Y/%m/%d");
+	return 1;
+}
+int advstring::AppCurDate()
+{
+	this->m_sValue += GetDateTime("%Y/%m/%d");
+	return 1;
+}
+advstring advstring::GetXOREncryptedData(advstring asKey)
+{
+	int nKeyLen = asKey.GetLength(),nDataSize = this->m_sValue.size();
+	std::string sOutPut;
+	sOutPut.resize(nDataSize);
+
+	for (int i = 0; i < nDataSize; i++)
+		sOutPut[i] = this->m_sValue[i] ^ asKey.m_sValue[i % nKeyLen];
+
+	return advstring(sOutPut);
+}
+advstring advstring::GetXORDecryptedData(advstring asKey)
+{
+	int nKeyLen = asKey.GetLength(),nDataSize = this->m_sValue.size();
+	std::string sOutPut;
+	sOutPut.resize(nDataSize);
+
+	for (int i = 0; i < nDataSize; i++)
+		sOutPut[i] = this->m_sValue[i] ^ asKey.m_sValue[i % nKeyLen];
+
+	return advstring(sOutPut);
+}
+int advstring::SetXOREncryptedData(advstring asKey)
+{
+	int nKeyLen = asKey.GetLength(),nDataSize = this->m_sValue.size();
+	for (int i = 0; i < nDataSize; i++)
+		this->m_sValue[i] = this->m_sValue[i] ^ asKey.m_sValue[i % nKeyLen];
+	return 1;
+}
+int advstring::SetXORDecryptedData(advstring asKey)
+{
+	int nKeyLen = asKey.GetLength(),nDataSize = this->m_sValue.size();
+	for (int i = 0; i < nDataSize; i++)
+		this->m_sValue[i] = this->m_sValue[i] ^ asKey.m_sValue[i % nKeyLen];
+	return 1;
+}
+int advstring::AppXOREncryptedData(advstring asKey)
+{
+	int nKeyLen = asKey.GetLength(),nDataSize = this->m_sValue.size();
+	std::string sOutPut;
+	sOutPut.resize(nDataSize);
+	for (int i = 0; i < nDataSize; i++)
+		sOutPut[i] = this->m_sValue[i] ^ asKey.m_sValue[i % nKeyLen];
+	this->m_sValue += sOutPut;
+	return 1;
+}
+int advstring::AppXORDecryptedData(advstring asKey)
+{
+	int nKeyLen = asKey.GetLength(),nDataSize = this->m_sValue.size();
+	std::string sOutPut;
+	sOutPut.resize(nDataSize);
+	for (int i = 0; i < nDataSize; i++)
+		sOutPut[i] = this->m_sValue[i] ^ asKey.m_sValue[i % nKeyLen];
+	this->m_sValue += sOutPut;
+	return 1;
+}
+std::string* advstring::GetData()
+{
+	return &this->m_sValue;
+}
+advstring advstring::Trim()
+{
+	size_t startpos = this->m_sValue.find_first_not_of(" \n\r\t");
+	if(startpos != std::string::npos) this->m_sValue = this->m_sValue.substr(startpos);
+	size_t endpos = this->m_sValue.find_last_not_of(" \n\r\t");
+	if(endpos != std::string::npos) this->m_sValue = this->m_sValue.substr(0,endpos+1);
+	return advstring(this->m_sValue);
+}
+advstring advstring::TrimLeft()
+{
+	size_t startpos = this->m_sValue.find_first_not_of(" \n\r\t");
+	if(startpos != std::string::npos) this->m_sValue = this->m_sValue.substr(startpos);
+	return advstring(this->m_sValue);
+}
+advstring advstring::TrimRight()
+{
+	size_t endpos = this->m_sValue.find_last_not_of(" \n\r\t");
+	if(endpos != std::string::npos) this->m_sValue = this->m_sValue.substr(0,endpos+1);
+	return advstring(this->m_sValue);
+}
+advstring advstring::Trim(char chTrim)
+{
+	size_t startpos = this->m_sValue.find_first_not_of(chTrim);
+	if(startpos != std::string::npos) this->m_sValue = this->m_sValue.substr(startpos);
+	size_t endpos = this->m_sValue.find_last_not_of(chTrim);
+	if(endpos != std::string::npos) this->m_sValue = this->m_sValue.substr(0,endpos+1);
+	return advstring(this->m_sValue);
+}
+advstring advstring::TrimLeft(char chTrim)
+{
+	size_t startpos = this->m_sValue.find_first_not_of(chTrim);
+	if(startpos != std::string::npos) this->m_sValue = this->m_sValue.substr(startpos);
+	return advstring(this->m_sValue);
+}
+advstring advstring::TrimRight(char chTrim)
+{
+	size_t endpos = this->m_sValue.find_last_not_of(chTrim);
+	if(endpos != std::string::npos) this->m_sValue = this->m_sValue.substr(0,endpos+1);
+	return advstring(this->m_sValue);
+}
+advstring advstring::Trim(advstring asTrim)
+{
+	size_t startpos = this->m_sValue.find_first_not_of(asTrim.m_sValue);
+	if(startpos != std::string::npos) this->m_sValue = this->m_sValue.substr(startpos);
+	size_t endpos = this->m_sValue.find_last_not_of(asTrim.m_sValue);
+	if(endpos != std::string::npos) this->m_sValue = this->m_sValue.substr(0,endpos+1);
+	return advstring(this->m_sValue);
+}
+advstring advstring::TrimLeft(advstring asTrim)
+{
+	size_t startpos = this->m_sValue.find_first_not_of(asTrim.m_sValue);
+	if(startpos != std::string::npos) this->m_sValue = this->m_sValue.substr(startpos);
+	return advstring(this->m_sValue);
+}
+advstring advstring::TrimRight(advstring asTrim)
+{
+	size_t endpos = this->m_sValue.find_last_not_of(asTrim.m_sValue);
+	if(endpos != std::string::npos) this->m_sValue = this->m_sValue.substr(0,endpos+1);
+	return advstring(this->m_sValue);
 }

@@ -10,13 +10,12 @@ asSampleText.DispStringEndl();
 std::string sSampleStd = "sSampleStd";
 const char* pchSampleChar = "pchSampleChar";
 int nSampleInt = 1234;
-float nSampleFloat = 1234.12;
+float nSampleFloat = (float)1234.12;
 double nSampleDouble = 12345.12345;
 
 advstring asReturn;
 std::string sReturnStd;
 char* pchReturnChar;
-int nReturnInt;
 float nReturnFloat;
 double nReturnDouble;
 
@@ -48,11 +47,11 @@ advstring asCheck1;
 advstring asCheck2;
 advstring asCheck3;
 advstring asCheck4;
-char chcsword;
-char chasword;
+char chcsword=0;
+char chasword=0;
 std::string glad("role");
 char kkk ='a';
-float nJAsdf(0.1);
+float nJAsdf((float)0.1);
 bool bCheck;
 std::string coolads = "1";
 
@@ -201,9 +200,32 @@ nasCom = asCheck3.IsLower();
 nasCom = asCheck4.IsUpper();
 nasCom = asCheck4.IsLower();
 asCheck4.Swap(asCheck3);
+advstring asCheckTemp;
+asCheckTemp = asCheck3.GetCurDate();
+asCheckTemp = asCheck3.GetCurTime();
+asCheckTemp = asCheck3.GetCurDateTime();
+asCheckTemp = asCheck3.GetCurDateTimeStamp();
+asCheck3.SetCurDate();
+asCheck3.AppCurDate();
+asCheckTemp = "advstring-advance string";
+asCheckTemp.DispStringEndl();
+asCheckTemp = asCheckTemp.GetXOREncryptedData("cool");
+asCheckTemp.DispStringEndl();
+asCheckTemp = asCheckTemp.GetXORDecryptedData("cool");
+asCheckTemp.DispStringEndl();
+asCheckTemp.SetXOREncryptedData("cool");
+asCheckTemp.DispStringEndl();
+asCheckTemp.SetXORDecryptedData("cool");
+asCheckTemp.DispStringEndl();
+asCheckTemp.AppXOREncryptedData("cool");
+asCheckTemp.DispStringEndl();
+asCheckTemp.AppXORDecryptedData("cool");
+asCheckTemp.DispStringEndl();
 
 asSampleText = "------endtest------";
 asSampleText.DispStringEndl();
+
+system("pause");
 
 return 1;
 }

@@ -1,12 +1,12 @@
 /*
 *   advstring
 *   
-*   Version: 2.0.3
 *   Author: Prasaath Viki
 *   Email: prasaathviki@gmail.com
 *   Description: advstring is a string class with advance options.
-*   Date: Wednesday, April 16, 2014.
 *   Place: Chennai.
+*   Version: 2.0.7
+*   Date: Tuesday, May 20, 2014.
 */
 
 #ifndef __ADVSTRING_H
@@ -601,6 +601,166 @@ public:
 	* Swap the given advstring value to current value and current value to swap string.
 	*/
 	void Swap(advstring &asSwap);
+
+	/*!
+	* Get current date and time.
+	* \return advstring
+	*/
+	advstring GetCurDateTime();
+	
+	/*!
+	* Set current time.
+	* \return advstring
+	*/
+	advstring GetCurTime();
+	
+	/*!
+	* Get current date time stamp.
+	* \return advstring
+	*/
+	advstring GetCurDateTimeStamp();
+
+	/*!
+	* Get current date.
+	* \return advstring
+	*/
+	advstring GetCurDate();
+	
+	/*!
+	* Set current date to advstring value.
+	* \return 1 - success -1 - failure
+	*/
+	int SetCurDate();
+	
+	/*!
+	* App current date to advstring value.
+	* \return 1 - success -1 - failure
+	*/
+	int AppCurDate();
+
+	/*!
+	* Get XOR Encrypted Data
+	* XOR Encryption is very simple encryption technique.
+	* XOR Encryption is very easy to break. Use with care.
+	* Don't use key with same letters. Key should be same as the length of the text.
+	* Encryption and Decryption both are same algorithm.
+	* \return 1 - success -1 - failure
+	*/
+	advstring GetXOREncryptedData(advstring asKey);
+	
+	/*!
+	* Get XOR Encrypted Data
+	* XOR Encryption is very simple encryption technique.
+	* XOR Encryption is very easy to break. Use with care.
+	* Don't use key with same letters. Key should be same as the length of the text.
+	* Encryption and Decryption both are same algorithm.
+	* \return 1 - success -1 - failure
+	*/
+	advstring GetXORDecryptedData(advstring asKey);
+
+	/*!
+	* Set XOR Encrypted Data
+	* XOR Encryption is very simple encryption technique.
+	* XOR Encryption is very easy to break. Use with care.
+	* Don't use key with same letters. Key should be same as the length of the text.
+	* Encryption and Decryption both are same algorithm.
+	* \return 1 - success -1 - failure
+	*/
+	int SetXOREncryptedData(advstring asKey);
+	
+	/*!
+	* Set XOR Encrypted Data
+	* XOR Encryption is very simple encryption technique.
+	* XOR Encryption is very easy to break. Use with care.
+	* Don't use key with same letters. Key should be same as the length of the text.
+	* Encryption and Decryption both are same algorithm.
+	* \return 1 - success -1 - failure
+	*/
+	int SetXORDecryptedData(advstring asKey);
+
+	/*!
+	* Append XOR Encrypted Data
+	* XOR Encryption is very simple encryption technique.
+	* XOR Encryption is very easy to break. Use with care.
+	* Don't use key with same letters. Key should be same as the length of the text.
+	* Encryption and Decryption both are same algorithm.
+	* \return 1 - success -1 - failure
+	*/
+	int AppXOREncryptedData(advstring asKey);
+	
+	/*!
+	* Append XOR Encrypted Data
+	* XOR Encryption is very simple encryption technique.
+	* XOR Encryption is very easy to break. Use with care.
+	* Don't use key with same letters. Key should be same as the length of the text.
+	* Encryption and Decryption both are same algorithm.
+	* \return 1 - success -1 - failure
+	*/
+	int AppXORDecryptedData(advstring asKey);
+
+	/*!
+	 * Get current data of the advstring. 
+	 * If you change the values of the std::string* data it also change the data values of the advstring.
+	 * Don't clear this pointer it will cleared automatically when the advstring is cleared. 
+	 * \return std::string*
+	 */
+	std::string* GetData();
+
+	/*!
+	 * Remove all leading and trailing occurrences in the advstring value.
+	 * \return advstring 
+	 */
+	advstring Trim();
+
+	/*!
+	 * Remove all leading and trailing occurrences of any of the char in the advstring value.
+	 * \return advstring 
+	 */
+	advstring Trim(char chTrim);
+	
+
+	/*!
+	 * Remove all leading and trailing occurrences of any of the string in the advstring value.
+	 * \return advstring 
+	 */
+	advstring Trim(advstring asTrim);
+
+	/*!
+	 * Remove all leading occurrences in the advstring value.
+	 * \return advstring 
+	 */
+	advstring TrimLeft();
+
+	/*!
+	 * Remove all leading occurrences of any of the char in the advstring value.
+	 * \return advstring 
+	 */
+	advstring TrimLeft(char chTrim);
+
+	/*!
+	 * Remove all leading occurrences of any of the string in the advstring value.
+	 * \return advstring 
+	 */
+	advstring TrimLeft(advstring asTrim);
+
+	/*!
+	 * Remove all trailing occurrences in the advstring value.
+	 * \return advstring 
+	 */
+	advstring TrimRight();
+
+	/*!
+	 * Remove all trailing occurrences of any of the char in the advstring value.
+	 * \return advstring 
+	 */
+	advstring TrimRight(char chTrim);
+
+	/*!
+	 * Remove all trailing occurrences of any of the string in the advstring value.
+	 * \return advstring 
+	 */
+	advstring TrimRight(advstring asTrim);
+	
 };
 
 #endif
